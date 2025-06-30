@@ -1,13 +1,9 @@
-import fastify from "fastify";
-import { routes } from "./presentation/routes";
+import { app } from "./app";
+import { env } from "./env";
 
-const server = fastify();
-
-server.register(routes);
-
-server
+app
   .listen({
-    port: 3333,
+    port: env.PORT,
   })
   .then(() => {
     console.log("Http server running! 🚀");
