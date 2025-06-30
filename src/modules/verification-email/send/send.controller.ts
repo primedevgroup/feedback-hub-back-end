@@ -1,14 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { SendVerificationEmailService } from "./send.service";
-import { z } from "zod";
-
-const sendVerificationEmailRequestBody = z.object({
-  email: z.string().email(),
-});
-
-export type SendVerificationEmailRequestBody = z.infer<
-  typeof sendVerificationEmailRequestBody
->;
 
 class SendVerificationEmailController {
   constructor(
@@ -16,9 +7,9 @@ class SendVerificationEmailController {
   ) {}
 
   async handler(req: FastifyRequest, reply: FastifyReply) {
-    const { email } = sendVerificationEmailRequestBody.parse(req.body);
+    const userId = req.user.sub;
 
-    await this.sendVerificationEmailService.handler({ email });
+    await this.sendVerificationEmailService.handler({ userId });
 
     return reply.status(200).send({ message: "Email sent." });
   }
