@@ -1,4 +1,4 @@
-import { AuthenticateRepository } from "@/repository/authenticate-repository";
+import { AuthenticateRepository } from "@/repositories/authenticate-repository";
 import { SignInRequestBodySchema } from "./signin.controller";
 import { InvalidCredentialsError } from "@/utils/errors/invalid-credentials";
 import { compare } from "bcryptjs";

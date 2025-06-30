@@ -1,4 +1,4 @@
-import { EmailVerificationRepository } from "@/repository/email-verification-repository";
+import { EmailVerificationRepository } from "@/repositories/email-verification-repository";
 import { generateVerificationCode } from "@/utils/generateVerificationCode";
 import { SendVerificationEmailRequestBody } from "./send.controller";
 

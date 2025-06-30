@@ -1,4 +1,4 @@
-import { AuthenticateRepository } from "@/repository/authenticate-repository";
+import { AuthenticateRepository } from "@/repositories/authenticate-repository";
 import { signInRequestBodySchema } from "./signup.controller";
 import { hash } from "bcryptjs";
 

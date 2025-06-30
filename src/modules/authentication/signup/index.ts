@@ -1,4 +1,4 @@
-import { AuthenticateRepositoryPrisma } from "@/repository/prisma/authenticate-repository-prisma";
+import { AuthenticateRepositoryPrisma } from "@/repositories/prisma/authenticate-repository-prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { SignUpController } from "./signup.controller";
 import { SignUpService } from "./signup.service";

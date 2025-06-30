@@ -1,4 +1,4 @@
-import { EmailVerificationRepositoryPrisma } from "@/repository/prisma/email-verification-repository-prisma";
+import { EmailVerificationRepositoryPrisma } from "@/repositories/prisma/email-verification-repository-prisma";
 import { FastifyRequest, FastifyReply } from "fastify";
 import { SendVerificationEmailService } from "./send.service";
 import { SendVerificationEmailController } from "./send.controller";

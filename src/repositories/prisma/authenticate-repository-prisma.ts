@@ -1,6 +1,6 @@
 import { Prisma, User } from "@/generated/prisma/client";
 import { AuthenticateRepository } from "../authenticate-repository";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/libs/prisma";
 
 export class AuthenticateRepositoryPrisma implements AuthenticateRepository {
   async create(data: Prisma.UserUncheckedCreateInput) {

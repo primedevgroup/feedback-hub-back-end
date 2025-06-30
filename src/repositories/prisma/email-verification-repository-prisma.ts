@@ -1,6 +1,6 @@
 import { Prisma, EmailVerification } from "@/generated/prisma";
 import { EmailVerificationRepository } from "../email-verification-repository";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@/libs/prisma";
 
 export class EmailVerificationRepositoryPrisma
   implements EmailVerificationRepository
