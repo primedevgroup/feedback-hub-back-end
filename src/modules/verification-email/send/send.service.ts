@@ -1,6 +1,8 @@
 import { EmailVerificationRepository } from "@/repositories/email-verification-repository";
 import { generateVerificationCode } from "@/utils/generateVerificationCode";
 import { SendVerificationEmailRequestBody } from "./send.controller";
+import nodemailer from "nodemailer";
+import { env } from "@/env";
 
 class SendVerificationEmailService {
   constructor(
@@ -15,6 +17,21 @@ class SendVerificationEmailService {
       email: data.email,
       code,
       expiresAt,
+    });
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: env.SMTP_FROM,
+      to: data.email,
+      subject: "Confirmação de e-mail",
+      text: `Aqui está o código de verificação: ${code}`,
     });
   }
 }
