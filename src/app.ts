@@ -1,5 +1,5 @@
 import fastify from "fastify";
-import { routes } from "./presentation/routes";
+import { routes } from "./presentations/routes";
 import { Prisma } from "./generated/prisma";
 import { ZodError } from "zod";
 import fastifyJwt from "@fastify/jwt";
