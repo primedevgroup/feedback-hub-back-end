@@ -10,7 +10,7 @@ class SignUpService {
   async handler(data: signInRequestBodySchema) {
     const hashedPassword = await hash(data.password, 10);
 
-    await this.authenticateRepository.signUp({
+    await this.authenticateRepository.create({
       ...data,
       password: hashedPassword,
     });

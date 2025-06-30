@@ -1,5 +1,6 @@
-import { Prisma } from "../generated/prisma";
+import { Prisma, User } from "../generated/prisma";
 
 export abstract class AuthenticateRepository {
-  abstract signUp(data: Prisma.UserUncheckedCreateInput): Promise<void>;
+  abstract create(data: Prisma.UserUncheckedCreateInput): Promise<void>;
+  abstract findByEmail(email: string): Promise<User | null>;
 }

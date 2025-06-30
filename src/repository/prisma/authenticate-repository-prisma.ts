@@ -1,11 +1,21 @@
-import { Prisma } from "@/generated/prisma/client";
+import { Prisma, User } from "@/generated/prisma/client";
 import { AuthenticateRepository } from "../authenticate-repository";
 import { prisma } from "@/lib/prisma";
 
 export class AuthenticateRepositoryPrisma implements AuthenticateRepository {
-  async signUp(data: Prisma.UserUncheckedCreateInput) {
+  async create(data: Prisma.UserUncheckedCreateInput) {
     await prisma.user.create({
       data,
     });
+  }
+
+  async findByEmail(email: string) {
+    const data = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    return data;
   }
 }

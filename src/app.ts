@@ -2,8 +2,14 @@ import fastify from "fastify";
 import { routes } from "./presentation/routes";
 import { Prisma } from "./generated/prisma";
 import { ZodError } from "zod";
+import fastifyJwt from "@fastify/jwt";
+import { env } from "./env";
 
 export const app = fastify();
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+});
 
 app.setErrorHandler((error, request, reply) => {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -20,6 +26,10 @@ app.setErrorHandler((error, request, reply) => {
     return reply.status(400).send({
       error: formattedErrors,
     });
+  }
+
+  if (error instanceof Error) {
+    return reply.code(403).send({ error: error.message });
   }
 
   request.log.error(error);
