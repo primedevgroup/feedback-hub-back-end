@@ -1,4 +1,4 @@
-import { AuthenticateRepositoryPrisma } from "@/repositories/prisma/authenticate-repository-prisma";
+import { UserRepositoryPrisma } from "@/repositories/prisma/authenticate-repository-prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { SignInService } from "./signin.service";
 import { SignInController } from "./signin.controller";
@@ -7,9 +7,9 @@ const authenticationSignIn = async (
   req: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const authenticateRepository = new AuthenticateRepositoryPrisma();
+  const userRepository = new UserRepositoryPrisma();
 
-  const signInService = new SignInService(authenticateRepository);
+  const signInService = new SignInService(userRepository);
   const signInController = new SignInController(signInService);
 
   await signInController.handler(req, reply);

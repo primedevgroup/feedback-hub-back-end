@@ -10,6 +10,7 @@ export abstract class EmailVerificationRepository {
   ): Promise<EmailVerification | null>;
 
   abstract update(
+    id: string,
     data: Prisma.EmailVerificationUncheckedUpdateInput
   ): Promise<void>;
 }

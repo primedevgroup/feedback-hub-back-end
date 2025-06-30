@@ -16,10 +16,10 @@ export class EmailVerificationRepositoryPrisma
     return record;
   }
 
-  async update(data: Prisma.EmailVerificationUpdateInput) {
+  async update(id: string, data: Prisma.EmailVerificationUpdateInput) {
     await prisma.emailVerification.update({
       where: {
-        id: data.id?.toString(),
+        id: id,
       },
       data,
     });
