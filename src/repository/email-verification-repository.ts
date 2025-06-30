@@ -1,0 +1,15 @@
+import { EmailVerification, Prisma } from "@/generated/prisma";
+
+export abstract class EmailVerificationRepository {
+  abstract create(
+    data: Prisma.EmailVerificationUncheckedCreateInput
+  ): Promise<void>;
+
+  abstract findFirst(
+    filter: Prisma.EmailVerificationFindFirstArgs
+  ): Promise<EmailVerification | null>;
+
+  abstract update(
+    data: Prisma.EmailVerificationUncheckedUpdateInput
+  ): Promise<void>;
+}
