@@ -23,8 +23,6 @@ class VerifyVerificationCodeService {
 
     const { email } = user;
 
-    console.log(email, code);
-
     const emailVerification = await this.emailVerificationRepository.findFirst({
       where: {
         email,
@@ -33,8 +31,6 @@ class VerifyVerificationCodeService {
         verified: false,
       },
     });
-
-    console.log(emailVerification);
 
     if (!emailVerification) {
       throw new InvalidCodeError();
