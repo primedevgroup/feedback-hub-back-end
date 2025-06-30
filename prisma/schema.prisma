@@ -33,4 +33,5 @@ model EmailVerification {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@index([email])
+  @@map("email_verification")
 }
