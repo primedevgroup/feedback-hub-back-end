@@ -12,7 +12,7 @@ class SignInService {
       throw new InvalidCredentialsError();
     }
 
-    const decryptedPassword = await compare(data.password, user.password);
+    const decryptedPassword = await compare(data.password, user.password!!);
     if (!decryptedPassword) {
       throw new InvalidCredentialsError();
     }
