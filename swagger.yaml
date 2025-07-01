@@ -1,0 +1,66 @@
+# src/docs/openapi.yaml
+openapi: 3.0.0
+info:
+  title: Feedback Hub API
+  version: 1.0.0
+paths:
+  /auth/signup:
+    post:
+      summary: Registrar com email e senha
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignUpBody"
+      responses:
+        "201":
+          description: Usuário criado
+  /auth/signin:
+    post:
+      summary: Entrar com email e senha
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignInBody"
+      responses:
+        "200":
+          description: Token emitido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+components:
+  schemas:
+    SignInBody:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    SignUpBody:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 6

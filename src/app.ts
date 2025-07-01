@@ -4,8 +4,11 @@ import { Prisma } from "./generated/prisma";
 import { ZodError } from "zod";
 import fastifyJwt from "@fastify/jwt";
 import { env } from "./env";
+import swagger from "./libs/swagger";
 
 export const app = fastify();
+
+app.register(swagger);
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
