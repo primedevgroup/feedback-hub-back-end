@@ -1,4 +1,4 @@
-import { EmailVerification, Prisma } from "@/generated/prisma";
+import { Prisma, EmailVerification } from "@prisma/client";
 
 export abstract class EmailVerificationRepository {
   abstract create(
