@@ -1,4 +1,4 @@
-import { Prisma, EmailVerification } from "@/generated/prisma";
+import { Prisma } from "@prisma/client";
 import { EmailVerificationRepository } from "../email-verification-repository";
 import { prisma } from "@/libs/prisma";
 

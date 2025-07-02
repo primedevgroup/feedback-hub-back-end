@@ -6,7 +6,7 @@ import yaml from "js-yaml";
 import fs from "fs";
 
 export default fp(async (fastify) => {
-  const filePath = path.join(__dirname, "../../swagger.yaml");
+  const filePath = path.join(process.cwd(), "swagger.yaml");
   const doc = yaml.load(
     fs.readFileSync(filePath, "utf8")
   ) as import("openapi-types").OpenAPIV3.Document;

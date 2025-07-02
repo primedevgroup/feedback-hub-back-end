@@ -1,10 +1,10 @@
 import fastify from "fastify";
 import { routes } from "./presentations/routes";
-import { Prisma } from "./generated/prisma";
 import { ZodError } from "zod";
 import fastifyJwt from "@fastify/jwt";
 import { env } from "./env";
 import swagger from "./libs/swagger";
+import { Prisma } from "@prisma/client";
 
 export const app = fastify();
 
