@@ -1,5 +1,5 @@
 import { SquadsRepository } from "@/repositories/squads-repository";
-import { SquadsMapper } from "../mappers";
+import { SquadsMapper } from "../../mappers";
 
 class FindByUserService {
   constructor(private readonly squadsRepository: SquadsRepository) {}
