@@ -9,6 +9,6 @@ export async function privateRoutes(app: FastifyInstance) {
     prefix: "/email-verification",
   });
   app.register(squadRoutes, {
-    prefix: "/squads",
+    prefix: "/squad",
   });
 }
