@@ -2,7 +2,7 @@ import { EmailVerificationRepository } from "@/repositories/email-verification-r
 import { generateVerificationCode } from "@/utils/generateVerificationCode";
 import nodemailer from "nodemailer";
 import { env } from "@/env";
-import { UserRepository } from "@/repositories/user-repository";
+import { UsersRepository } from "@/repositories/users-repository";
 import { InvalidCredentialsError } from "@/utils/errors/invalid-credentials";
 
 interface SendVerificationEmailParams {
@@ -12,7 +12,7 @@ interface SendVerificationEmailParams {
 class SendVerificationEmailService {
   constructor(
     private readonly emailVerificationRepository: EmailVerificationRepository,
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UsersRepository
   ) {}
 
   async handler(data: SendVerificationEmailParams) {

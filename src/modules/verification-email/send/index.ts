@@ -2,11 +2,11 @@ import { EmailVerificationRepositoryPrisma } from "@/repositories/prisma/email-v
 import { FastifyRequest, FastifyReply } from "fastify";
 import { SendVerificationEmailService } from "./send.service";
 import { SendVerificationEmailController } from "./send.controller";
-import { UserRepositoryPrisma } from "@/repositories/prisma/authenticate-repository-prisma";
+import { UsersRepositoryPrisma } from "@/repositories/prisma/users-repository-prisma";
 
 const sendEmail = async (req: FastifyRequest, reply: FastifyReply) => {
   const emailVerificationRepository = new EmailVerificationRepositoryPrisma();
-  const userRepository = new UserRepositoryPrisma();
+  const userRepository = new UsersRepositoryPrisma();
 
   const sendVerificationEmailService = new SendVerificationEmailService(
     emailVerificationRepository,

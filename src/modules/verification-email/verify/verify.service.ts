@@ -1,4 +1,4 @@
-import { UserRepository } from "@/repositories/user-repository";
+import { UsersRepository } from "@/repositories/users-repository";
 import { EmailVerificationRepository } from "@/repositories/email-verification-repository";
 import { VerifyVerificationCodeRequestBody } from "./verify.controller";
 import { InvalidCredentialsError } from "@/utils/errors/invalid-credentials";
@@ -11,7 +11,7 @@ interface VerifyVerificationCodeServiceParams
 
 class VerifyVerificationCodeService {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: UsersRepository,
     private readonly emailVerificationRepository: EmailVerificationRepository
   ) {}
 

@@ -1,12 +1,12 @@
 import { env } from "@/env";
-import { UserRepository } from "@/repositories/user-repository";
+import { UsersRepository } from "@/repositories/users-repository";
 import { OAuth2Client } from "google-auth-library";
 import { SocialLoginControllerRequestBody } from "./social-login.controller";
 import { InvalidCredentialsError } from "@/utils/errors/invalid-credentials";
 
 class SocialLoginService {
   constructor(
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: UsersRepository,
     private readonly googleClient: OAuth2Client
   ) {}
 

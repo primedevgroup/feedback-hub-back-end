@@ -1,10 +1,10 @@
-import { UserRepository } from "@/repositories/user-repository";
+import { UsersRepository } from "@/repositories/users-repository";
 import { SignInRequestBodySchema } from "./signin.controller";
 import { InvalidCredentialsError } from "@/utils/errors/invalid-credentials";
 import { compare } from "bcryptjs";
 
 class SignInService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async handler(data: SignInRequestBodySchema) {
     const user = await this.userRepository.findByEmail(data.email);

@@ -1,9 +1,9 @@
-import { UserRepository } from "@/repositories/user-repository";
+import { UsersRepository } from "@/repositories/users-repository";
 import { signInRequestBodySchema } from "./signup.controller";
 import { hash } from "bcryptjs";
 
 class SignUpService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async handler(data: signInRequestBodySchema) {
     const hashedPassword = await hash(data.password, 10);
