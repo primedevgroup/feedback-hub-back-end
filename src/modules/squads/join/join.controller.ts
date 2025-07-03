@@ -1,18 +1,18 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { JoinSquadService } from "./join.service";
-import { JoinSquadQueryParamsSchema } from ".";
+import { JoinSquadPathParamsSchema } from ".";
 
 class JoinSquadController {
   constructor(private readonly joinSquadService: JoinSquadService) {}
 
   async handler(
-    req: FastifyRequest<{ Querystring: JoinSquadQueryParamsSchema }>,
+    req: FastifyRequest<{ Params: JoinSquadPathParamsSchema }>,
     reply: FastifyReply
   ) {
-    const { squad } = req.query;
+    const { squadId } = req.params;
     const userId = req.user.sub;
 
-    await this.joinSquadService.handler({ squadId: squad, userId });
+    await this.joinSquadService.handler({ squadId, userId });
 
     return reply.status(201).send();
   }

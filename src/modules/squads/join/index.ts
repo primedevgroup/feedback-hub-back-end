@@ -4,16 +4,16 @@ import { JoinSquadsRepositoryPrisma } from "@/repositories/prisma/join-squads-re
 import { JoinSquadController } from "./join.controller";
 import z from "zod";
 
-const joinSquadQueryParamsSchema = z.object({
-  squad: z.string().uuid(),
+const joinSquadPathParamsSchema = z.object({
+  squadId: z.string().uuid(),
 });
 
-export type JoinSquadQueryParamsSchema = z.infer<
-  typeof joinSquadQueryParamsSchema
+export type JoinSquadPathParamsSchema = z.infer<
+  typeof joinSquadPathParamsSchema
 >;
 
 export const joinSquad = async (
-  req: FastifyRequest<{ Querystring: JoinSquadQueryParamsSchema }>,
+  req: FastifyRequest<{ Params: JoinSquadPathParamsSchema }>,
   reply: FastifyReply
 ) => {
   const joinSquadsRepository = new JoinSquadsRepositoryPrisma();
