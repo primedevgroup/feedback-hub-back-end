@@ -20,6 +20,7 @@ model User {
   password   String?
   googleId   String?  @map("google_id")
   created_at DateTime @default(now())
+  Squad      Squad[]
 
   @@map("users")
 }
@@ -39,7 +40,10 @@ model EmailVerification {
 model Squad {
   id        String   @id @default(uuid())
   name      String
+  ownerId   String   @map("owner_id")
   createdAt DateTime @default(now()) @map("created_at")
+
+  owner User @relation(fields: [ownerId], references: [id])
 
   @@map("squads")
 }
