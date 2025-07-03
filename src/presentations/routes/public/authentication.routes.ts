@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
-import { authenticationSignIn } from "../../../modules/authentication/signin";
-import { authenticationSignUp } from "@/modules/authentication/signup";
-import { socialLogin } from "@/modules/authentication/social-login";
+import { authenticationSignIn } from "../../../modules/authentication/use-cases/signin";
+import { authenticationSignUp } from "@/modules/authentication/use-cases/signup";
+import { socialLogin } from "@/modules/authentication/use-cases/social-login";
 
 export async function authenticationRoutes(server: FastifyInstance) {
   server.post("/signin", authenticationSignIn);

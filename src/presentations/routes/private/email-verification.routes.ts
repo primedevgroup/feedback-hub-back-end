@@ -1,5 +1,5 @@
-import { sendEmail } from "@/modules/verification-email/send";
-import { verifyEmail } from "@/modules/verification-email/verify";
+import { sendEmail } from "@/modules/verification-email/use-cases/send";
+import { verifyEmail } from "@/modules/verification-email/use-cases/verify";
 import { FastifyInstance } from "fastify";
 
 export async function emailVerificationRoutes(server: FastifyInstance) {
