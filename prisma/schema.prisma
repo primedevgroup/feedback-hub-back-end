@@ -35,3 +35,11 @@ model EmailVerification {
   @@index([email])
   @@map("email_verification")
 }
+
+model Squad {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("squads")
+}
