@@ -17,7 +17,7 @@ class SignInController {
 
     const user = await this.signInService.handler({ email, password });
 
-    const token = await reply.jwtSign(
+    const accessToken = await reply.jwtSign(
       {},
       {
         sign: {
@@ -26,7 +26,7 @@ class SignInController {
       }
     );
 
-    reply.status(200).send({ token });
+    reply.status(200).send({ access_token: accessToken });
   }
 }
 
