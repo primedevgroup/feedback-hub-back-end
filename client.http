@@ -1,0 +1,47 @@
+@baseUrl = http://localhost:3333
+@authToken = {{SignIn.response.body.access_token}}
+@squadId = 03b19897-713e-4139-9369-5725dd45fe83
+
+###
+# @name SignUp
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{   
+  "email": "joao@example.com",
+  "password": "12345678"
+}
+
+###
+
+# @name SignIn
+POST {{baseUrl}}/auth/signin
+Content-Type: application/json
+
+{
+  "email": "joao@example.com",
+  "password": "12345678"
+}
+
+###
+
+# @name CreateSquad
+POST {{baseUrl}}/squad
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "name": "Squad de Desenvolvimento"
+}
+
+###
+
+# @name JoinSquad
+POST {{baseUrl}}/squad/{{squadId}}/join
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name FindSquadsByUser
+GET {{baseUrl}}/squad/find-by-user
+Authorization: Bearer {{authToken}}

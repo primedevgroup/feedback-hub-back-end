@@ -5,6 +5,9 @@ import fastifyJwt from "@fastify/jwt";
 import { env } from "./env";
 import swagger from "./libs/swagger";
 import { Prisma } from "@prisma/client";
+import { formatErrorResponse } from "./utils/format-error-response";
+import { AppError } from "./utils/errors/app-error";
+import { toLowercaseKeys } from "./utils/to-lower-case";
 
 export const app = fastify();
 
@@ -15,6 +18,10 @@ app.register(fastifyJwt, {
 });
 
 app.setErrorHandler((error, request, reply) => {
+  if (error instanceof AppError) {
+    return reply.status(error.statusCode).send(formatErrorResponse(error));
+  }
+
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P2002") {
       return reply.status(409).send({ error: "Email already in use." });
