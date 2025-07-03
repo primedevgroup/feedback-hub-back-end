@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
+  id         String      @id @default(uuid())
   name       String?
-  email      String   @unique
+  email      String      @unique
   password   String?
-  googleId   String?  @map("google_id")
-  created_at DateTime @default(now())
-  Squad      Squad[]
+  googleId   String?     @map("google_id")
+  created_at DateTime    @default(now())
+  SquadUser  SquadUser[]
 
   @@map("users")
 }
@@ -38,12 +38,30 @@ model EmailVerification {
 }
 
 model Squad {
-  id        String   @id @default(uuid())
+  id        String      @id @default(uuid())
   name      String
-  ownerId   String   @map("owner_id")
-  createdAt DateTime @default(now()) @map("created_at")
-
-  owner User @relation(fields: [ownerId], references: [id])
+  ownerId   String      @map("owner_id")
+  createdAt DateTime    @default(now()) @map("created_at")
+  SquadUser SquadUser[]
 
   @@map("squads")
+}
+
+model SquadUser {
+  id        String        @id @default(uuid())
+  squadId   String        @map("squad_id")
+  userId    String        @map("user_id")
+  role      SquadUserRole @default(MEMBER)
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  squad Squad @relation(fields: [squadId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@index([squadId, userId])
+  @@map("squad_user")
+}
+
+enum SquadUserRole {
+  ADMIN
+  MEMBER
 }
