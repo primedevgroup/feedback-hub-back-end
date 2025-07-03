@@ -40,7 +40,6 @@ model EmailVerification {
 model Squad {
   id        String      @id @default(uuid())
   name      String
-  ownerId   String      @map("owner_id")
   createdAt DateTime    @default(now()) @map("created_at")
   SquadUser SquadUser[]
 
