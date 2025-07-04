@@ -29,4 +29,12 @@ export class FeedbacksRepositoryPrisma implements FeedbacksRepository {
 
     return FeedbacksMapper.toDTO(feedback);
   }
+
+  async findManyByTargetId(targetId: string): Promise<FeedbackDTO[]> {
+    const feedbacks = await prisma.feedback.findMany({
+      where: { targetId },
+    });
+
+    return feedbacks.map(FeedbacksMapper.toDTO);
+  }
 }

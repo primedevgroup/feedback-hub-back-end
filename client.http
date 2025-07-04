@@ -75,3 +75,9 @@ GET {{baseUrl}}/feedback/{{feedbackId}}
 Authorization: Bearer {{authToken}}
 
 ###
+
+# @name FindManyByTarget
+GET {{baseUrl}}/feedback/received
+Authorization: Bearer {{authToken}}
+
+###
