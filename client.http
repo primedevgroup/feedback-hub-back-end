@@ -1,8 +1,8 @@
 @baseUrl = http://localhost:3333
 @authToken = {{SignIn.response.body.access_token}}
-@squadId = 657dee04-c744-4798-8d14-c475c74c00e3
+@squadId = e891b902-6457-4f47-9728-bb8949b9abec
 @feedbackId = b0e49be6-83f6-4e39-a20d-5b540fa8f7c6
-@targetId = c28d15b0-75e0-46a4-bfd6-0eb770d023f4
+@targetId = 1efca3a7-decf-487d-8a13-108d21babad2
 
 ###
 # @name SignUp
@@ -10,7 +10,7 @@ POST {{baseUrl}}/auth/signup
 Content-Type: application/json
 
 {   
-  "email": "ale@example.com",
+  "email": "antony@example.com",
   "password": "12345678"
 }
 
@@ -21,7 +21,7 @@ POST {{baseUrl}}/auth/signin
 Content-Type: application/json
 
 {
-  "email": "davi@example.com",
+  "email": "ale@example.com",
   "password": "12345678"
 }
 
