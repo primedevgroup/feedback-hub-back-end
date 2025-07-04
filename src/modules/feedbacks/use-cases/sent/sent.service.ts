@@ -1,7 +1,7 @@
 import { FeedbacksRepository } from "@/repositories/feedbacks-repository";
 import { FeedbacksMapper } from "../../mappers";
 
-class FindManyByUserService {
+class FindSentFeedbacksService {
   constructor(private readonly feedbacksRepository: FeedbacksRepository) {}
 
   async handle(userId: string) {
@@ -11,4 +11,4 @@ class FindManyByUserService {
   }
 }
 
-export { FindManyByUserService };
+export { FindSentFeedbacksService };

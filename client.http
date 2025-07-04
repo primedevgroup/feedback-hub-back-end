@@ -21,7 +21,7 @@ POST {{baseUrl}}/auth/signin
 Content-Type: application/json
 
 {
-  "email": "ale@example.com",
+  "email": "davi@example.com",
   "password": "12345678"
 }
 
@@ -64,8 +64,8 @@ Content-Type: application/json
 
 ###
 
-# @name FindManyByUser
-GET {{baseUrl}}/feedback
+# @name FindSentFeedbacks
+GET {{baseUrl}}/feedback/sent
 Authorization: Bearer {{authToken}}
 
 ###
@@ -76,7 +76,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 
-# @name FindManyByTarget
+# @name FindReceivedFeedbacks
 GET {{baseUrl}}/feedback/received
 Authorization: Bearer {{authToken}}
 
