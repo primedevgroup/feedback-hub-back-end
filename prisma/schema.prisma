@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
-  name       String?
-  email      String      @unique
-  password   String?
-  googleId   String?     @map("google_id")
-  created_at DateTime    @default(now())
-  SquadUser  SquadUser[]
-  Feedback   Feedback[]
+  id             String      @id @default(uuid())
+  name           String?
+  email          String      @unique
+  password       String?
+  googleId       String?     @map("google_id")
+  created_at     DateTime    @default(now())
+  SquadUser      SquadUser[]
+  FeedbackOwner  Feedback[]  @relation("FeedbackOwner")
+  FeedbackTarget Feedback[]  @relation("FeedbackTarget")
 
   @@map("users")
 }
@@ -69,10 +70,12 @@ model Feedback {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   ownerId   String   @map("owner_id")
+  targetId  String   @map("target_id")
   squadId   String   @map("squad_id")
 
-  owner User  @relation(fields: [ownerId], references: [id])
-  squad Squad @relation(fields: [squadId], references: [id])
+  owner  User  @relation("FeedbackOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  target User  @relation("FeedbackTarget", fields: [targetId], references: [id], onDelete: Cascade)
+  squad  Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
 
   @@map("feedbacks")
 }

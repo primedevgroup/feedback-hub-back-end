@@ -4,16 +4,18 @@ import { SquadsRepositoryPrisma } from "@/repositories/prisma/squads-repository-
 import { FastifyReply, FastifyRequest } from "fastify";
 import { CreateFeedbackController } from "./create.controller";
 import { CreateFeedbackService } from "./create.service";
+import { UsersRepositoryPrisma } from "@/repositories/prisma/users-repository-prisma";
 
 const createFeedback = async (req: FastifyRequest, reply: FastifyReply) => {
   const feedbacksRepository = new FeedbacksRepositoryPrisma();
   const squadsRepository = new SquadsRepositoryPrisma();
   const joinSquadsRepository = new JoinSquadsRepositoryPrisma();
-
+  const usersRepository = new UsersRepositoryPrisma();
   const createFeedbackService = new CreateFeedbackService(
     feedbacksRepository,
     squadsRepository,
-    joinSquadsRepository
+    joinSquadsRepository,
+    usersRepository
   );
 
   const createFeedbackController = new CreateFeedbackController(

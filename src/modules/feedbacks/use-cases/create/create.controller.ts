@@ -6,6 +6,7 @@ const createFeedbackRequestBodySchema = z.object({
   title: z.string(),
   content: z.string(),
   squadId: z.string(),
+  targetId: z.string(),
 });
 
 export type CreateFeedbackRequestBodySchema = z.infer<
@@ -17,15 +18,15 @@ class CreateFeedbackController {
 
   async handle(req: FastifyRequest, reply: FastifyReply) {
     const ownerId = req.user.sub;
-    const { title, content, squadId } = createFeedbackRequestBodySchema.parse(
-      req.body
-    );
+    const { title, content, squadId, targetId } =
+      createFeedbackRequestBodySchema.parse(req.body);
 
     await this.createFeedbackService.handle({
       title,
       content,
       squadId,
       ownerId,
+      targetId,
     });
 
     return reply.status(201).send();
