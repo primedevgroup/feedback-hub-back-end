@@ -45,3 +45,23 @@ Authorization: Bearer {{authToken}}
 # @name FindSquadsByUser
 GET {{baseUrl}}/squad/find-by-user
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name PostFeedback
+POST {{baseUrl}}/feedback
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Feedback de Teste",
+  "content": "Este é um feedback de teste",
+  "squadId": "{{squadId}}"
+}
+
+###
+
+# @name FindManyByUser
+GET {{baseUrl}}/feedback/find-many-by-user
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
