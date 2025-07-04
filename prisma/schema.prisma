@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,11 +12,11 @@ model User {
   name           String?
   email          String      @unique
   password       String?
-  googleId       String?     @map("google_id")
   created_at     DateTime    @default(now())
-  SquadUser      SquadUser[]
+  googleId       String?     @map("google_id")
   FeedbackOwner  Feedback[]  @relation("FeedbackOwner")
   FeedbackTarget Feedback[]  @relation("FeedbackTarget")
+  SquadUser      SquadUser[]
 
   @@map("users")
 }
@@ -43,8 +37,8 @@ model Squad {
   id        String      @id @default(uuid())
   name      String
   createdAt DateTime    @default(now()) @map("created_at")
-  SquadUser SquadUser[]
   Feedback  Feedback[]
+  SquadUser SquadUser[]
 
   @@map("squads")
 }
@@ -55,9 +49,8 @@ model SquadUser {
   userId    String        @map("user_id")
   role      SquadUserRole @default(MEMBER)
   createdAt DateTime      @default(now()) @map("created_at")
-
-  squad Squad @relation(fields: [squadId], references: [id])
-  user  User  @relation(fields: [userId], references: [id])
+  squad     Squad         @relation(fields: [squadId], references: [id])
+  user      User          @relation(fields: [userId], references: [id])
 
   @@index([squadId, userId])
   @@map("squad_user")
@@ -70,12 +63,11 @@ model Feedback {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   ownerId   String   @map("owner_id")
-  targetId  String   @map("target_id")
   squadId   String   @map("squad_id")
-
-  owner  User  @relation("FeedbackOwner", fields: [ownerId], references: [id], onDelete: Cascade)
-  target User  @relation("FeedbackTarget", fields: [targetId], references: [id], onDelete: Cascade)
-  squad  Squad @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  targetId  String   @map("target_id")
+  owner     User     @relation("FeedbackOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  squad     Squad    @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  target    User     @relation("FeedbackTarget", fields: [targetId], references: [id], onDelete: Cascade)
 
   @@map("feedbacks")
 }

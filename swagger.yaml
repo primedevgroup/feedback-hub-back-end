@@ -88,7 +88,141 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageResponse"
+  /squads:
+    post:
+      summary: Criar um novo squad
+      tags:
+        - Squads
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateSquadBody"
+      responses:
+        "201":
+          description: Squad criado com sucesso
+    get:
+      summary: Buscar squads do usuário
+      tags:
+        - Squads
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de squads do usuário
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  squads:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/SquadResponse"
+  /squads/{squadId}/join:
+    post:
+      summary: Entrar em um squad
+      tags:
+        - Squads
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: squadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID do squad
+      responses:
+        "200":
+          description: Usuário entrou no squad com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+  /feedbacks:
+    post:
+      summary: Criar um novo feedback
+      tags:
+        - Feedbacks
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFeedbackBody"
+      responses:
+        "201":
+          description: Feedback criado com sucesso
+  /feedbacks/{id}:
+    get:
+      summary: Buscar feedback por ID
+      tags:
+        - Feedbacks
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID do feedback
+      responses:
+        "200":
+          description: Feedback encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedback:
+                    $ref: "#/components/schemas/FeedbackResponse"
+  /feedbacks/sent:
+    get:
+      summary: Buscar feedbacks enviados pelo usuário
+      tags:
+        - Feedbacks
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de feedbacks enviados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FeedbackResponse"
+  /feedbacks/received:
+    get:
+      summary: Buscar feedbacks recebidos pelo usuário
+      tags:
+        - Feedbacks
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de feedbacks recebidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FeedbackResponse"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     SignInBody:
       type: object
@@ -145,6 +279,41 @@ components:
           minLength: 6
           maxLength: 6
           description: Código de verificação (6 caracteres)
+    CreateSquadBody:
+      type: object
+      description: Dados para criar um squad
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Nome do squad
+    CreateFeedbackBody:
+      type: object
+      description: Dados para criar um feedback
+      required:
+        - title
+        - content
+        - targetId
+        - squadId
+      properties:
+        title:
+          type: string
+          minLength: 1
+          description: Título do feedback
+        content:
+          type: string
+          minLength: 1
+          description: Conteúdo do feedback
+        targetId:
+          type: string
+          format: uuid
+          description: ID do usuário que receberá o feedback
+        squadId:
+          type: string
+          format: uuid
+          description: ID do squad onde o feedback será criado
     MessageResponse:
       type: object
       description: Resposta padrão para mensagens
@@ -159,3 +328,55 @@ components:
         token:
           type: string
           description: Token de autenticação
+    SquadResponse:
+      type: object
+      description: Resposta com dados do squad
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID do squad
+        name:
+          type: string
+          description: Nome do squad
+        created_at:
+          type: string
+          format: date-time
+          description: Data de criação do squad
+        members_count:
+          type: integer
+          description: Número de membros no squad
+    FeedbackResponse:
+      type: object
+      description: Resposta com dados do feedback
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID do feedback
+        title:
+          type: string
+          description: Título do feedback
+        content:
+          type: string
+          description: Conteúdo do feedback
+        created_at:
+          type: string
+          format: date-time
+          description: Data de criação do feedback
+        updated_at:
+          type: string
+          format: date-time
+          description: Data da última atualização do feedback
+        owner_id:
+          type: string
+          format: uuid
+          description: ID do usuário que criou o feedback
+        target_id:
+          type: string
+          format: uuid
+          description: ID do usuário que recebeu o feedback
+        squad_id:
+          type: string
+          format: uuid
+          description: ID do squad onde o feedback foi criado

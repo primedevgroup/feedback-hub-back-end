@@ -5,5 +5,6 @@ export type FeedbackDTO = {
   createdAt: Date;
   updatedAt: Date;
   ownerId: string;
+  targetId: string;
   squadId: string;
 };

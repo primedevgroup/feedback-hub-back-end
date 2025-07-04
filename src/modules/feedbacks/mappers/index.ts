@@ -10,6 +10,7 @@ class FeedbacksMapper {
       createdAt: feedback.createdAt,
       updatedAt: feedback.updatedAt,
       ownerId: feedback.ownerId,
+      targetId: feedback.targetId,
       squadId: feedback.squadId,
     };
   }
@@ -21,6 +22,8 @@ class FeedbacksMapper {
       content: feedback.content,
       created_at: feedback.createdAt,
       updated_at: feedback.updatedAt,
+      owner_id: feedback.ownerId,
+      target_id: feedback.targetId,
       squad_id: feedback.squadId,
     };
   }

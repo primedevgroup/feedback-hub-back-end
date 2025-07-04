@@ -1,12 +1,12 @@
 import { FastifyInstance } from "fastify";
 import { createFeedback } from "@/modules/feedbacks/use-cases/create";
-import { findManyByUser } from "@/modules/feedbacks/use-cases/find-many-by-user";
+import { findSent } from "@/modules/feedbacks/use-cases/sent";
 import { findById } from "@/modules/feedbacks/use-cases/find-by-id";
-import { findManyByTarget } from "@/modules/feedbacks/use-cases/find-many-by-target";
+import { findReceived } from "@/modules/feedbacks/use-cases/received";
 
 export async function feedbackRoutes(app: FastifyInstance) {
   app.post("/", createFeedback);
-  app.get("/", findManyByUser);
   app.get("/:id", findById);
-  app.get("/received", findManyByTarget);
+  app.get("/sent", findSent);
+  app.get("/received", findReceived);
 }
