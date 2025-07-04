@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:3333
 @authToken = {{SignIn.response.body.access_token}}
 @squadId = 03b19897-713e-4139-9369-5725dd45fe83
+@feedbackId = b0e49be6-83f6-4e39-a20d-5b540fa8f7c6
 
 ###
 # @name SignUp
@@ -45,3 +46,30 @@ Authorization: Bearer {{authToken}}
 # @name FindSquadsByUser
 GET {{baseUrl}}/squad/find-by-user
 Authorization: Bearer {{authToken}}
+
+###
+
+# @name PostFeedback
+POST {{baseUrl}}/feedback
+Authorization: Bearer {{authToken}}
+Content-Type: application/json
+
+{
+  "title": "Feedback de Teste",
+  "content": "Este é um feedback de teste",
+  "squadId": "{{squadId}}"
+}
+
+###
+
+# @name FindManyByUser
+GET {{baseUrl}}/feedback
+Authorization: Bearer {{authToken}}
+
+###
+
+# @name FindById
+GET {{baseUrl}}/feedback/{{feedbackId}}
+Authorization: Bearer {{authToken}}
+
+###

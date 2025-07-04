@@ -21,6 +21,7 @@ model User {
   googleId   String?     @map("google_id")
   created_at DateTime    @default(now())
   SquadUser  SquadUser[]
+  Feedback   Feedback[]
 
   @@map("users")
 }
@@ -42,6 +43,7 @@ model Squad {
   name      String
   createdAt DateTime    @default(now()) @map("created_at")
   SquadUser SquadUser[]
+  Feedback  Feedback[]
 
   @@map("squads")
 }
@@ -58,6 +60,21 @@ model SquadUser {
 
   @@index([squadId, userId])
   @@map("squad_user")
+}
+
+model Feedback {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  ownerId   String   @map("owner_id")
+  squadId   String   @map("squad_id")
+
+  owner User  @relation(fields: [ownerId], references: [id])
+  squad Squad @relation(fields: [squadId], references: [id])
+
+  @@map("feedbacks")
 }
 
 enum SquadUserRole {

@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Squad } from "@prisma/client";
 import { SquadsRepository } from "../squads-repository";
 import { prisma } from "@/libs/prisma";
 import { SquadDTO } from "@/modules/squads/dto/squad-dto";
@@ -28,5 +28,13 @@ export class SquadsRepositoryPrisma implements SquadsRepository {
     });
 
     return squads.map(SquadsMapper.toDTO);
+  }
+
+  async findById(id: string): Promise<Squad | null> {
+    const squad = await prisma.squad.findUnique({
+      where: { id },
+    });
+
+    return squad;
   }
 }
