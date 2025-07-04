@@ -62,6 +62,5 @@ Content-Type: application/json
 ###
 
 # @name FindManyByUser
-GET {{baseUrl}}/feedback/find-many-by-user
+GET {{baseUrl}}/feedback
 Authorization: Bearer {{authToken}}
-Content-Type: application/json

@@ -4,5 +4,5 @@ import { findManyByUser } from "@/modules/feedbacks/use-cases/find-many-by-user"
 
 export async function feedbackRoutes(app: FastifyInstance) {
   app.post("/", createFeedback);
-  app.get("/find-many-by-user", findManyByUser);
+  app.get("/", findManyByUser);
 }
