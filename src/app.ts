@@ -7,9 +7,13 @@ import swagger from "./libs/swagger";
 import { Prisma } from "@prisma/client";
 import { formatErrorResponse } from "./utils/format-error-response";
 import { AppError } from "./utils/errors/app-error";
-import { toLowercaseKeys } from "./utils/to-lower-case";
+import fastifyCors from "@fastify/cors";
 
 export const app = fastify();
+
+app.register(fastifyCors, {
+  origin: true,
+});
 
 app.register(swagger);
 
