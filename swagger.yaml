@@ -144,6 +144,58 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageResponse"
+  /squads/{squadId}/users:
+    get:
+      summary: Buscar usuários do squad
+      tags:
+        - Squads
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: squadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          description: ID do squad (formato UUID)
+      responses:
+        "200":
+          description: Lista de usuários do squad
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/UserResponse"
+        "404":
+          description: Squad não encontrado
+  /squads/{squadId}/delete:
+    delete:
+      summary: Deletar um squad
+      tags:
+        - Squads
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: squadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID do squad (formato UUID)
+      responses:
+        "204":
+          description: Squad deletado com sucesso
+        "404":
+          description: Squad não encontrado
+        "403":
+          description: Usuário não tem permissão para deletar o squad
   /feedbacks:
     post:
       summary: Criar um novo feedback
@@ -380,3 +432,27 @@ components:
           type: string
           format: uuid
           description: ID do squad onde o feedback foi criado
+    UserResponse:
+      type: object
+      description: Dados do usuário
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID do usuário
+        googleId:
+          type: string
+          nullable: true
+          description: ID do Google (pode ser null)
+        name:
+          type: string
+          nullable: true
+          description: Nome do usuário
+        email:
+          type: string
+          format: email
+          description: Email do usuário
+        createdAt:
+          type: string
+          format: date-time
+          description: Data de criação da conta
