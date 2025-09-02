@@ -49,8 +49,8 @@ model SquadUser {
   userId    String        @map("user_id")
   role      SquadUserRole @default(MEMBER)
   createdAt DateTime      @default(now()) @map("created_at")
-  squad     Squad         @relation(fields: [squadId], references: [id])
-  user      User          @relation(fields: [userId], references: [id])
+  squad     Squad         @relation(fields: [squadId], references: [id], onDelete: Cascade)
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([squadId, userId])
   @@map("squad_user")

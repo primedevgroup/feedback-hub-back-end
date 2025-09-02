@@ -21,9 +21,9 @@ export class JoinSquadsRepositoryPrisma implements JoinSquadsRepository {
   }
 
   async isOwner(squadId: string, userId: string): Promise<boolean> {
-    const squadUser = await prisma.squadUser.findUnique({
+    const squadUser = await prisma.squadUser.findFirst({
       where: {
-        id: squadId,
+        squadId,
         userId,
         role: "OWNER",
       },
