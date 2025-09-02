@@ -37,4 +37,10 @@ export class SquadsRepositoryPrisma implements SquadsRepository {
 
     return squad;
   }
+
+  async delete(id: string): Promise<void> {
+    await prisma.squad.delete({
+      where: { id },
+    });
+  }
 }

@@ -5,4 +5,5 @@ export abstract class SquadsRepository {
   abstract create(data: Prisma.SquadUncheckedCreateInput): Promise<Squad>;
   abstract getSquadsByUserId(userId: string): Promise<SquadDTO[]>;
   abstract findById(id: string): Promise<Squad | null>;
+  abstract delete(id: string): Promise<void>;
 }

@@ -17,7 +17,7 @@ class CreateSquadService {
     await this.joinSquadsRepository.join({
       squadId: squad.id,
       userId: ownerId,
-      role: "ADMIN",
+      role: "OWNER",
     });
   }
 }
