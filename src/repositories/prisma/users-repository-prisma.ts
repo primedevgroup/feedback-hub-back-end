@@ -1,6 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { UsersRepository } from "../users-repository";
 import { prisma } from "@/libs/prisma";
+import { UsersDTO } from "@/modules/shared/dto/users-dto";
+import { UsersMapper } from "@/modules/shared/mappers/users";
 
 export class UsersRepositoryPrisma implements UsersRepository {
   async create(data: Prisma.UserUncheckedCreateInput) {
@@ -27,5 +29,15 @@ export class UsersRepositoryPrisma implements UsersRepository {
     });
 
     return data;
+  }
+
+  async getUsersBySquadId(squadId: string): Promise<UsersDTO[]> {
+    const users = await prisma.user.findMany({
+      where: {
+        SquadUser: { some: { squadId } },
+      },
+    });
+
+    return users.map(UsersMapper.toDTO);
   }
 }
