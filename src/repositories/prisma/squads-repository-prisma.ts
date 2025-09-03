@@ -38,6 +38,23 @@ export class SquadsRepositoryPrisma implements SquadsRepository {
     return squad;
   }
 
+  async update(
+    id: string,
+    data: Prisma.SquadUncheckedUpdateInput
+  ): Promise<SquadDTO> {
+    const squad = await prisma.squad.update({
+      where: { id },
+      data,
+      include: {
+        _count: {
+          select: { SquadUser: true },
+        },
+      },
+    });
+
+    return SquadsMapper.toDTO(squad);
+  }
+
   async delete(id: string): Promise<void> {
     await prisma.squad.delete({
       where: { id },
