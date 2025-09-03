@@ -21,8 +21,10 @@ class UpdateSquadService {
     }
 
     const isOwner = await this.joinSquadsRepository.isOwner(squadId, ownerId);
-    if (!isOwner) {
-      throw new AppError("User is not the owner of the squad", 403);
+    const isAdmin = await this.joinSquadsRepository.isAdmin(squadId, ownerId);
+
+    if (!isOwner && !isAdmin) {
+      throw new AppError("User is not the owner or admin of the squad", 403);
     }
 
     await this.squadsRepository.update(squadId, { name });

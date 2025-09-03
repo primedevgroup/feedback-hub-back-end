@@ -20,6 +20,18 @@ export class JoinSquadsRepositoryPrisma implements JoinSquadsRepository {
     return !!squadUser;
   }
 
+  async isAdmin(squadId: string, userId: string): Promise<boolean> {
+    const squadUser = await prisma.squadUser.findFirst({
+      where: {
+        squadId,
+        userId,
+        role: "ADMIN",
+      },
+    });
+
+    return !!squadUser;
+  }
+
   async isOwner(squadId: string, userId: string): Promise<boolean> {
     const squadUser = await prisma.squadUser.findFirst({
       where: {
