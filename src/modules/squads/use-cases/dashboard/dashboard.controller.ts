@@ -14,7 +14,10 @@ class DashboardController {
 
     const dashboard = await this.dashboardService.handler({ squadId, userId });
 
-    return reply.status(200).send({ dashboard });
+    return reply.status(200).send({
+      success: true,
+      data: dashboard,
+    });
   }
 }
 

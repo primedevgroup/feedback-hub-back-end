@@ -225,6 +225,33 @@ paths:
           description: Squad não encontrado
         "403":
           description: Usuário não tem permissão para deletar o squad
+
+  /squad/{squadId}/dashboard:
+    get:
+      summary: Dashboard do squad
+      tags:
+        - Squads
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: squadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID do squad (formato UUID)
+      responses:
+        "200":
+          description: Dashboard do squad
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardResponse"
+        "404":
+          description: Squad não encontrado
+        "403":
+          description: Usuário não tem permissão para acessar o dashboard do squad
   /feedback:
     post:
       summary: Criar um novo feedback
@@ -419,6 +446,50 @@ components:
         token:
           type: string
           description: Token de autenticação
+    DashboardResponse:
+      type: object
+      description: Resposta com dados do dashboard
+      properties:
+        success:
+          type: boolean
+          description: Indica se a operação foi bem-sucedida
+          example: true
+        data:
+          type: object
+          description: Dados do dashboard
+          properties:
+            summary:
+              $ref: "#/components/schemas/DashboardSummaryResponse"
+            chart:
+              type: array
+              items:
+                $ref: "#/components/schemas/DashboardChartResponse"
+    DashboardSummaryResponse:
+      type: object
+      description: Resposta com dados do sumário do dashboard
+      properties:
+        feedbacks_received:
+          type: integer
+          description: Número de feedbacks recebidos
+        feedbacks_sent:
+          type: integer
+          description: Número de feedbacks enviados
+        unique_people:
+          type: integer
+          description: Número de pessoas únicas que receberam feedbacks
+    DashboardChartResponse:
+      type: object
+      description: Resposta com dados do gráfico do dashboard
+      properties:
+        month:
+          type: string
+          description: Mês do gráfico
+        received:
+          type: integer
+          description: Número de feedbacks recebidos
+        sent:
+          type: integer
+          description: Número de feedbacks enviados
     SquadResponse:
       type: object
       description: Resposta com dados do squad
