@@ -37,4 +37,31 @@ export class FeedbacksRepositoryPrisma implements FeedbacksRepository {
 
     return feedbacks.map(FeedbacksMapper.toDTO);
   }
+
+  async findManyByUserIdInPeriod(
+    userId: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<FeedbackDTO[]> {
+    const feedbacks = await prisma.feedback.findMany({
+      where: { ownerId: userId, createdAt: { gte: startDate, lte: endDate } },
+    });
+
+    return feedbacks.map(FeedbacksMapper.toDTO);
+  }
+
+  async findManyByTargetIdInPeriod(
+    targetId: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<FeedbackDTO[]> {
+    const feedbacks = await prisma.feedback.findMany({
+      where: {
+        targetId: targetId,
+        createdAt: { gte: startDate, lte: endDate },
+      },
+    });
+
+    return feedbacks.map(FeedbacksMapper.toDTO);
+  }
 }

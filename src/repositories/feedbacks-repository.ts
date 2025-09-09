@@ -6,4 +6,14 @@ export abstract class FeedbacksRepository {
   abstract findManyByUserId(userId: string): Promise<FeedbackDTO[]>;
   abstract findById(id: string): Promise<FeedbackDTO>;
   abstract findManyByTargetId(targetId: string): Promise<FeedbackDTO[]>;
+  abstract findManyByUserIdInPeriod(
+    userId: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<FeedbackDTO[]>;
+  abstract findManyByTargetIdInPeriod(
+    targetId: string,
+    startDate: Date,
+    endDate: Date
+  ): Promise<FeedbackDTO[]>;
 }
