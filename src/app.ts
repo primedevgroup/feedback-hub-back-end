@@ -8,6 +8,7 @@ import { Prisma } from "@prisma/client";
 import { formatErrorResponse } from "./utils/format-error-response";
 import { AppError } from "./utils/errors/app-error";
 import fastifyCors from "@fastify/cors";
+import fastifyCookie from "@fastify/cookie";
 
 export const app = fastify();
 
@@ -17,8 +18,16 @@ app.register(fastifyCors, {
 
 app.register(swagger);
 
+app.register(fastifyCookie, {
+  secret: env.JWT_SECRET,
+});
+
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "access_token",
+    signed: false,
+  },
 });
 
 app.setErrorHandler((error, request, reply) => {
