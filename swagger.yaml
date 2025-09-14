@@ -82,6 +82,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MessageResponse"
+  /user/me:
+    get:
+      summary: Buscar usuário logado
+      tags:
+        - User
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Usuário logado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
   /email-verification/send:
     post:
       summary: Enviar email de verificação
