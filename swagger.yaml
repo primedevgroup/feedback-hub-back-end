@@ -35,14 +35,20 @@ paths:
               $ref: "#/components/schemas/SignInBody"
       responses:
         "200":
-          description: Token emitido
+          description: Login realizado com sucesso
+          headers:
+            Set-Cookie:
+              description: Cookie de autenticação
+              schema:
+                type: string
+                example: "access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800"
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TokenResponse"
+                $ref: "#/components/schemas/SignInResponse"
   /auth/signin/google:
     post:
-      summary: Entrar com o Login Social
+      summary: Entrar com o Login Social (Google)
       tags:
         - Auth
       requestBody:
@@ -53,7 +59,25 @@ paths:
               $ref: "#/components/schemas/SocialLoginBody"
       responses:
         "200":
-          description: Login Social realizado
+          description: Login Social realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SocialLoginResponse"
+  /auth/logout:
+    post:
+      summary: Fazer logout
+      tags:
+        - Auth
+      responses:
+        "200":
+          description: Logout realizado com sucesso
+          headers:
+            Set-Cookie:
+              description: Cookie de autenticação removido
+              schema:
+                type: string
+                example: "access_token=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0"
           content:
             application/json:
               schema:
@@ -94,7 +118,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -110,7 +134,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       responses:
         "200":
           description: Lista de squads do usuário
@@ -129,7 +153,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - name: squadId
           in: path
@@ -151,7 +175,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - name: squadId
           in: path
@@ -181,7 +205,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - name: squadId
           in: path
@@ -209,7 +233,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - name: squadId
           in: path
@@ -232,7 +256,7 @@ paths:
       tags:
         - Squads
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - name: squadId
           in: path
@@ -252,13 +276,78 @@ paths:
           description: Squad não encontrado
         "403":
           description: Usuário não tem permissão para acessar o dashboard do squad
+
+  /squad/{squadId}/feedback/received:
+    get:
+      summary: Buscar feedbacks recebidos pelo usuário no squad
+      tags:
+        - Squads
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: squadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID do squad (formato UUID)
+      responses:
+        "200":
+          description: Lista de feedbacks recebidos no squad
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedbacks:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FeedbackResponse"
+        "404":
+          description: Squad não encontrado
+        "403":
+          description: Usuário não é membro do squad
+
+  /squad/{squadId}/feedback/sent:
+    get:
+      summary: Buscar feedbacks enviados pelo usuário no squad
+      tags:
+        - Squads
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: squadId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID do squad (formato UUID)
+      responses:
+        "200":
+          description: Lista de feedbacks enviados no squad
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  feedbacks:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/FeedbackResponse"
+        "404":
+          description: Squad não encontrado
+        "403":
+          description: Usuário não é membro do squad
+
   /feedback:
     post:
       summary: Criar um novo feedback
       tags:
         - Feedbacks
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -274,7 +363,7 @@ paths:
       tags:
         - Feedbacks
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       parameters:
         - name: id
           in: path
@@ -295,11 +384,11 @@ paths:
                     $ref: "#/components/schemas/FeedbackResponse"
   /feedback/sent:
     get:
-      summary: Buscar feedbacks enviados pelo usuário
+      summary: Buscar todos os feedbacks enviados pelo usuário
       tags:
         - Feedbacks
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       responses:
         "200":
           description: Lista de feedbacks enviados
@@ -311,11 +400,11 @@ paths:
                   $ref: "#/components/schemas/FeedbackResponse"
   /feedback/received:
     get:
-      summary: Buscar feedbacks recebidos pelo usuário
+      summary: Buscar todos os feedbacks recebidos pelo usuário
       tags:
         - Feedbacks
       security:
-        - bearerAuth: []
+        - cookieAuth: []
       responses:
         "200":
           description: Lista de feedbacks recebidos
@@ -331,6 +420,12 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+      description: Autenticação via Bearer Token (deprecated - use cookieAuth)
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: access_token
+      description: Autenticação via Cookie HTTP-Only
   schemas:
     SignInBody:
       type: object
@@ -439,13 +534,29 @@ components:
         message:
           type: string
           description: Mensagem da resposta
-    TokenResponse:
+    SignInResponse:
       type: object
-      description: Resposta com token de autenticação
+      description: Resposta do login com email e senha
+      properties:
+        message:
+          type: string
+          description: Mensagem de sucesso
+          example: "Signed in successfully"
+    SocialLoginResponse:
+      type: object
+      description: Resposta do login social
       properties:
         token:
           type: string
-          description: Token de autenticação
+          description: Token de autenticação JWT
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    TokenResponse:
+      type: object
+      description: Resposta com token de autenticação (deprecated)
+      properties:
+        access_token:
+          type: string
+          description: Token de autenticação (deprecated - use cookies)
     DashboardResponse:
       type: object
       description: Resposta com dados do dashboard
