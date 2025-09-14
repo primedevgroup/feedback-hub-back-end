@@ -3,6 +3,7 @@ import { emailVerificationRoutes } from "../private/email-verification.routes";
 import { verifyJwt } from "@/presentations/middlewares/verifyJwt";
 import { squadRoutes } from "./squad.routes";
 import { feedbackRoutes } from "./feedback.routes";
+import { userRoutes } from "./user.routes";
 
 export async function privateRoutes(app: FastifyInstance) {
   app.addHook("onRequest", verifyJwt);
@@ -14,5 +15,8 @@ export async function privateRoutes(app: FastifyInstance) {
   });
   app.register(feedbackRoutes, {
     prefix: "/feedback",
+  });
+  app.register(userRoutes, {
+    prefix: "/user",
   });
 }

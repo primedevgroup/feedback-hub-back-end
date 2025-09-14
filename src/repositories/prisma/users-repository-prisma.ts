@@ -28,7 +28,9 @@ export class UsersRepositoryPrisma implements UsersRepository {
       },
     });
 
-    return data;
+    if (!data) return null;
+
+    return UsersMapper.toDTO(data);
   }
 
   async getUsersBySquadId(squadId: string): Promise<UsersDTO[]> {
