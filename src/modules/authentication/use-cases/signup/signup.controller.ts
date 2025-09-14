@@ -3,6 +3,7 @@ import z from "zod";
 import { SignUpService } from "./signup.service";
 
 const signInRequestBodySchema = z.object({
+  name: z.string().min(1),
   email: z.string().email(),
   password: z.string().min(8),
 });
@@ -13,8 +14,9 @@ class SignUpController {
   constructor(private readonly signUpService: SignUpService) {}
 
   async handler(req: FastifyRequest, reply: FastifyReply) {
-    const { email, password } = signInRequestBodySchema.parse(req.body);
+    const { name, email, password } = signInRequestBodySchema.parse(req.body);
     await this.signUpService.handler({
+      name,
       email,
       password,
     });
