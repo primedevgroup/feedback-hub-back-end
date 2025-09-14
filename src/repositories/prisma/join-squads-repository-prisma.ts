@@ -12,18 +12,18 @@ export class JoinSquadsRepositoryPrisma implements JoinSquadsRepository {
   }
 
   async isMember(squadId: string, userId: string): Promise<boolean> {
-    const squadUser = await prisma.squadUser.findFirst({
+    const squadUser = await prisma.squadUser.count({
       where: {
         squadId,
         userId,
       },
     });
 
-    return !!squadUser;
+    return squadUser > 0;
   }
 
   async isAdmin(squadId: string, userId: string): Promise<boolean> {
-    const squadUser = await prisma.squadUser.findFirst({
+    const squadUser = await prisma.squadUser.count({
       where: {
         squadId,
         userId,
@@ -31,11 +31,11 @@ export class JoinSquadsRepositoryPrisma implements JoinSquadsRepository {
       },
     });
 
-    return !!squadUser;
+    return squadUser > 0;
   }
 
   async isOwner(squadId: string, userId: string): Promise<boolean> {
-    const squadUser = await prisma.squadUser.findFirst({
+    const squadUser = await prisma.squadUser.count({
       where: {
         squadId,
         userId,
@@ -43,7 +43,7 @@ export class JoinSquadsRepositoryPrisma implements JoinSquadsRepository {
       },
     });
 
-    return !!squadUser;
+    return squadUser > 0;
   }
 
   async getMembers(squadId: string): Promise<UsersDTO[]> {

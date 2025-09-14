@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { FeedbacksRepository } from "../feedbacks-repository";
+import { FeedbacksRepository, FeedbackType } from "../feedbacks-repository";
 import { prisma } from "@/libs/prisma";
 import { FeedbackDTO } from "@/modules/feedbacks/dtos/feedback-dto";
 import { FeedbacksMapper } from "@/modules/feedbacks/mappers";
@@ -60,6 +60,23 @@ export class FeedbacksRepositoryPrisma implements FeedbacksRepository {
         targetId: targetId,
         createdAt: { gte: startDate, lte: endDate },
       },
+    });
+
+    return feedbacks.map(FeedbacksMapper.toDTO);
+  }
+
+  async findManyBySquadIdAndUserId(
+    squadId: string,
+    userId: string,
+    type?: FeedbackType
+  ): Promise<FeedbackDTO[]> {
+    const where: Prisma.FeedbackWhereInput =
+      type === FeedbackType.RECEIVED
+        ? { squadId, targetId: userId }
+        : { squadId, ownerId: userId };
+
+    const feedbacks = await prisma.feedback.findMany({
+      where,
     });
 
     return feedbacks.map(FeedbacksMapper.toDTO);

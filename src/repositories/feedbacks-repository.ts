@@ -1,6 +1,11 @@
 import { Prisma } from "@prisma/client";
 import { FeedbackDTO } from "@/modules/feedbacks/dtos/feedback-dto";
 
+export enum FeedbackType {
+  SENT = "sent",
+  RECEIVED = "received",
+}
+
 export abstract class FeedbacksRepository {
   abstract create(data: Prisma.FeedbackUncheckedCreateInput): Promise<void>;
   abstract findManyByUserId(userId: string): Promise<FeedbackDTO[]>;
@@ -15,5 +20,10 @@ export abstract class FeedbacksRepository {
     targetId: string,
     startDate: Date,
     endDate: Date
+  ): Promise<FeedbackDTO[]>;
+  abstract findManyBySquadIdAndUserId(
+    squadId: string,
+    userId: string,
+    type?: FeedbackType
   ): Promise<FeedbackDTO[]>;
 }

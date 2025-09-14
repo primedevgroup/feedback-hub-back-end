@@ -6,6 +6,7 @@ import { deleteSquad } from "@/modules/squads/use-cases/delete";
 import { users } from "@/modules/squads/use-cases/users";
 import { updateSquad } from "@/modules/squads/use-cases/update";
 import { dashboard } from "@/modules/squads/use-cases/dashboard";
+import { findReceivedFeedbacksBySquad } from "@/modules/squads/use-cases/find-received-feedbacks-by-squad";
 
 export const squadRoutes = async (app: FastifyInstance) => {
   app.post("/", createSquad);
@@ -15,4 +16,5 @@ export const squadRoutes = async (app: FastifyInstance) => {
   app.get("/:squadId/users", users);
   app.put("/:squadId/update", updateSquad);
   app.get("/:squadId/dashboard", dashboard);
+  app.get("/:squadId/feedback/received", findReceivedFeedbacksBySquad);
 };
