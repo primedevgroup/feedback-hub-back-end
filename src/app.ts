@@ -13,7 +13,7 @@ import fastifyCookie from "@fastify/cookie";
 export const app = fastify();
 
 app.register(fastifyCors, {
-  origin: true,
+  origin: "*",
   credentials: true,
 });
 
