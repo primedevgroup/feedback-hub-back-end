@@ -13,33 +13,7 @@ import fastifyCookie from "@fastify/cookie";
 export const app = fastify();
 
 app.register(fastifyCors, {
-  origin: (origin, callback) => {
-    // Lista de origens permitidas
-    const allowedOrigins = [
-      "http://localhost:3000",
-      "http://localhost:3001",
-      "http://127.0.0.1:3000",
-      "http://127.0.0.1:3001",
-      // Adicione aqui o domínio de produção do seu frontend quando tiver
-      // "https://seu-frontend.com",
-    ];
-
-    // Em desenvolvimento, permite localhost
-    if (env.NODE_ENV === "dev") {
-      if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-    }
-
-    // Em produção, verifica se a origem está na lista
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    // Log para debug
-    console.log(`CORS blocked origin: ${origin}`);
-    return callback(new Error(`Origin ${origin} not allowed by CORS`), false);
-  },
+  origin: true, // Permite qualquer origem
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: [
@@ -47,6 +21,8 @@ app.register(fastifyCors, {
     "Authorization",
     "Cookie",
     "X-Requested-With",
+    "Accept",
+    "Origin",
   ],
   exposedHeaders: ["Set-Cookie"],
 });
