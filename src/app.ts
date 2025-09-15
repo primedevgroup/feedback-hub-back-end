@@ -22,17 +22,18 @@ app.register(fastifyCors, {
         origin.startsWith("http://localhost") ||
         origin.startsWith("http://127.0.0.1")
       ) {
+        console.log(`cors allowed development: ${origin}`);
         return callback(null, true);
       }
     }
 
-    console.log("origin", origin);
-
     // Em produção, verifica se está na lista
     if (origin && allowedOrigins.includes(origin)) {
+      console.log(`cors allowed production: ${origin}`);
       return callback(null, true);
     }
 
+    console.log(`CORS blocked origin: ${origin}`);
     return callback(new Error("Not allowed by CORS"), false);
   },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
