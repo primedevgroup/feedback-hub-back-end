@@ -14,7 +14,7 @@ import { allowedOrigins } from "./constants/allowed-origins";
 export const app = fastify();
 
 app.register(fastifyCors, {
-  origin: allowedOrigins,
+  origin: "*",
 });
 
 app.register(swagger);
