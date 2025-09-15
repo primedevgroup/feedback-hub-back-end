@@ -17,10 +17,16 @@ app.register(fastifyCors, {
   origin: (origin, callback) => {
     // Em desenvolvimento, permite localhost
     if (process.env.NODE_ENV === "dev") {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (
+        !origin ||
+        origin.startsWith("http://localhost") ||
+        origin.startsWith("http://127.0.0.1")
+      ) {
         return callback(null, true);
       }
     }
+
+    console.log("origin", origin);
 
     // Em produção, verifica se está na lista
     if (origin && allowedOrigins.includes(origin)) {
@@ -36,8 +42,9 @@ app.register(fastifyCors, {
     "Accept",
     "Origin",
     "X-Requested-With",
+    "Cookie",
   ],
-  exposedHeaders: ["Authorization", "Content-Type"],
+  exposedHeaders: ["Authorization", "Content-Type", "Set-Cookie"],
   credentials: true,
 });
 
