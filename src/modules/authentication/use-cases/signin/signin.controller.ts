@@ -29,10 +29,11 @@ class SignInController {
     reply.setCookie("access_token", accessToken, {
       path: "/",
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       signed: true,
       maxAge: 60 * 60 * 24 * 7,
       sameSite: "none",
+      domain: undefined,
     });
 
     reply.status(200).send({
