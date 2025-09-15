@@ -9,12 +9,24 @@ import { formatErrorResponse } from "./utils/format-error-response";
 import { AppError } from "./utils/errors/app-error";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
-import { allowedOrigins } from "./constants/allowed-origins";
 
 export const app = fastify();
 
 app.register(fastifyCors, {
-  origin: "*",
+  origin: "*", // Permite qualquer origem
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "Accept",
+    "Origin",
+    "X-Requested-With",
+    "Access-Control-Allow-Origin",
+    "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Methods",
+  ],
+  exposedHeaders: ["Authorization", "Content-Type"],
+  credentials: false,
 });
 
 app.register(swagger);
@@ -25,9 +37,11 @@ app.register(fastifyCookie, {
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
-  cookie: {
-    cookieName: "access_token",
-    signed: false,
+  decode: {
+    complete: true,
+  },
+  sign: {
+    expiresIn: "7d",
   },
 });
 
