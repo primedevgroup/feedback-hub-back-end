@@ -13,10 +13,15 @@ import { allowedOrigins } from "./constants/allowed-origins";
 
 export const app = fastify();
 
+const isProduction = process.env.NODE_ENV === "production";
+const isDevelopment = process.env.NODE_ENV === "dev";
+console.log(`isProduction: ${isProduction}`);
+console.log(`isDevelopment: ${isDevelopment}`);
+
 app.register(fastifyCors, {
   origin: (origin, callback) => {
     // Em desenvolvimento, permite localhost
-    if (process.env.NODE_ENV === "dev") {
+    if (isDevelopment) {
       if (
         !origin ||
         origin.startsWith("http://localhost") ||
