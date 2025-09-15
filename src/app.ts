@@ -9,22 +9,12 @@ import { formatErrorResponse } from "./utils/format-error-response";
 import { AppError } from "./utils/errors/app-error";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
+import { allowedOrigins } from "./constants/allowed-origins";
 
 export const app = fastify();
 
 app.register(fastifyCors, {
-  origin: true, // Permite qualquer origem
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
-    "Cookie",
-    "X-Requested-With",
-    "Accept",
-    "Origin",
-  ],
-  exposedHeaders: ["Set-Cookie"],
+  origin: allowedOrigins,
 });
 
 app.register(swagger);
