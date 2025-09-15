@@ -30,7 +30,8 @@ class SignInController {
       path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      signed: true,
+      maxAge: 60 * 60 * 24 * 7,
       sameSite: "none",
     });
 
