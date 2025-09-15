@@ -9,11 +9,26 @@ import { formatErrorResponse } from "./utils/format-error-response";
 import { AppError } from "./utils/errors/app-error";
 import fastifyCors from "@fastify/cors";
 import fastifyCookie from "@fastify/cookie";
+import { allowedOrigins } from "./constants/allowed-origins";
 
 export const app = fastify();
 
 app.register(fastifyCors, {
-  origin: "*", // Permite qualquer origem
+  origin: (origin, callback) => {
+    // Em desenvolvimento, permite localhost
+    if (process.env.NODE_ENV === "dev") {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+    }
+
+    // Em produção, verifica se está na lista
+    if (origin && allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("Not allowed by CORS"), false);
+  },
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: [
     "Content-Type",
@@ -21,12 +36,9 @@ app.register(fastifyCors, {
     "Accept",
     "Origin",
     "X-Requested-With",
-    "Access-Control-Allow-Origin",
-    "Access-Control-Allow-Headers",
-    "Access-Control-Allow-Methods",
   ],
   exposedHeaders: ["Authorization", "Content-Type"],
-  credentials: false,
+  credentials: true,
 });
 
 app.register(swagger);
@@ -37,11 +49,9 @@ app.register(fastifyCookie, {
 
 app.register(fastifyJwt, {
   secret: env.JWT_SECRET,
-  decode: {
-    complete: true,
-  },
-  sign: {
-    expiresIn: "7d",
+  cookie: {
+    cookieName: "access_token",
+    signed: false,
   },
 });
 

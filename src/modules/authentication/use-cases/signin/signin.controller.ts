@@ -26,9 +26,16 @@ class SignInController {
       }
     );
 
+    reply.setCookie("access_token", accessToken, {
+      path: "/",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: "lax",
+    });
+
     reply.status(200).send({
       message: "Signed in successfully",
-      token: accessToken,
     });
   }
 }
