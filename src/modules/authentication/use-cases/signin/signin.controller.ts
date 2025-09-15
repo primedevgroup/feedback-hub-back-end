@@ -31,7 +31,7 @@ class SignInController {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 7, // 7 days
-      sameSite: "lax",
+      sameSite: "none",
     });
 
     reply.status(200).send({
