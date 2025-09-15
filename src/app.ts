@@ -14,6 +14,7 @@ export const app = fastify();
 
 app.register(fastifyCors, {
   origin: true,
+  credentials: true,
 });
 
 app.register(swagger);
